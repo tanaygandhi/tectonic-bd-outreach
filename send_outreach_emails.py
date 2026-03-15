@@ -6,7 +6,7 @@ from googleapiclient.discovery import build
 
 SPREADSHEET_NAME="Tectonic | Global BD Database"; SHEET_TAB="CTO/BD"
 SENDER_NAME="Tanay"; DAILY_LIMIT=100; DELAY_SECONDS=30; DRY_RUN=False
-COL_NAME=0;COL_EMAIL=1;COL_COMPANY=2;COL_CONTACTED=3;COL_LAST_CONTACTED=4
+COL_NAME=0;COL_EMAIL=1;COL_COMPANY=2;COL_CONTACTED=7;COL_LAST_CONTACTED=9
 SCOPES=["https://www.googleapis.com/auth/gmail.send","https://www.googleapis.com/auth/spreadsheets"]
 
 def get_google_credentials():
