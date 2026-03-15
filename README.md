@@ -63,7 +63,7 @@ tectonic-bd-outreach/
    - Google Sheets API
 4. Go to **Auth Platform → OAuth Consent Screen**
    - App type: External
-   - Add test users: `tanay@tectonic.xyz`, `tanaygandhimun@gmail.com`, `tanay.s.gandhi@gmail.com`
+   - Add test users: `email1@emailID.com` and so on.
 5. Go to **Auth Platform → Clients → Create Client**
    - Type: Desktop App
    - Download the JSON → rename it `credentials.json`
@@ -98,7 +98,7 @@ EOF
 python3 auth.py
 ```
 
-Sign in with `tanay@tectonic.xyz` when the browser opens. Wait for **"The authentication flow has completed"** before closing the tab.
+Sign in with `[yourname]@email.xyz` when the browser opens. Wait for **"The authentication flow has completed"** before closing the tab.
 
 ### Step 3 — Create the GitHub Repo
 
