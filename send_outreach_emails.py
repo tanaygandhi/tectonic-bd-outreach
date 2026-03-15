@@ -5,7 +5,7 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 
 SPREADSHEET_NAME="Tectonic | Global BD Database"; SHEET_TAB="CTO/BD"
-SENDER_NAME="Tanay"; DAILY_LIMIT=100; DELAY_SECONDS=5; DRY_RUN=False
+SENDER_NAME="Tanay"; DAILY_LIMIT=100; DELAY_SECONDS=30; DRY_RUN=False
 COL_NAME=0;COL_EMAIL=1;COL_COMPANY=2;COL_CONTACTED=3;COL_LAST_CONTACTED=4
 SCOPES=["https://www.googleapis.com/auth/gmail.send","https://www.googleapis.com/auth/spreadsheets"]
 
@@ -25,7 +25,7 @@ def send_emails():
     gmail=build("gmail","v1",credentials=creds)
     gc=gspread.authorize(creds)
     sheet=gc.open_by_key("1BQFriAiZGJs5mI9i5P1LiQ2Rop_ozff_dfDcRpADeFA").worksheet(SHEET_TAB)
-    rows=sheet.get_all_values()[1:]
+    rows=sheet.get_all_values()[90:]
     IST=timezone(timedelta(hours=5,minutes=30))
     sent=0;skipped=0
     for i,row in enumerate(rows):
@@ -45,8 +45,8 @@ def send_emails():
         if DRY_RUN: print(f"  [DRY RUN] {name} <{email}>"); sent+=1; continue
         try:
             gmail.users().messages().send(userId="me",body=raw).execute()
-            sheet.update_cell(i+2,COL_CONTACTED+1,"Yes")
-            sheet.update_cell(i+2,COL_LAST_CONTACTED+1,timestamp)
+            sheet.update_cell(i+91,COL_CONTACTED+1,"Yes")
+            sheet.update_cell(i+91,COL_LAST_CONTACTED+1,timestamp)
             print(f"  Sent -> {name} <{email}> [{timestamp}]"); sent+=1; time.sleep(DELAY_SECONDS)
         except Exception as e: print(f"  FAILED {email}: {e}")
     print(f"Done. Sent:{sent} Skipped:{skipped}")
