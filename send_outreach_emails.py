@@ -24,7 +24,7 @@ def send_emails():
     creds=get_google_credentials()
     gmail=build("gmail","v1",credentials=creds)
     gc=gspread.authorize(creds)
-    sheet=gc.open(SPREADSHEET_NAME).worksheet(SHEET_TAB)
+    sheet=gc.open_by_key("1BQFriAiZGJs5mI9i5P1LiQ2Rop_ozff_dfDcRpADeFA").worksheet(SHEET_TAB)
     rows=sheet.get_all_values()[1:]
     IST=timezone(timedelta(hours=5,minutes=30))
     sent=0;skipped=0
