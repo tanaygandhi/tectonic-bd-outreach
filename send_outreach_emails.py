@@ -50,6 +50,16 @@ def mark_bounces(gmail, sheet):
                 print(f"  Marked BOUNCED: {email} (row {i})")
     print(f"  Marked {count} row(s)."); return count
 
+
+def get_or_create_log(spreadsheet):
+    try:
+        log = spreadsheet.worksheet(LOG_TAB)
+    except gspread.exceptions.WorksheetNotFound:
+        log = spreadsheet.add_worksheet(title=LOG_TAB, rows=5000, cols=6)
+        log.append_row(["Timestamp", "Name", "Email", "Company", "Status", "Run Date"])
+        print("  Created Log tab.")
+    return log
+
 def send_emails():
     print("Authenticating...")
     creds=get_google_credentials()
@@ -80,8 +90,9 @@ def send_emails():
             gmail.users().messages().send(userId="me",body=raw).execute()
             sheet.update_cell(sheet_row,COL_CONTACTED+1,"Yes")
             sheet.update_cell(sheet_row,COL_LAST_CONTACTED+1,timestamp)
+            log.append_row([timestamp, name, email, company, "Sent", run_date])
             print(f"  Sent -> {name} <{email}> [{timestamp}]"); sent+=1; time.sleep(DELAY_SECONDS)
-        except Exception as e: print(f"  FAILED {email}: {e}")
+        except Exception as e: log.append_row([timestamp, name, email, company, f"Failed: {e}", run_date]); print(f"  FAILED {email}: {e}")
     print(f"\nDone. Sent:{sent} Skipped:{skipped}")
 
 if __name__=="__main__": send_emails()
